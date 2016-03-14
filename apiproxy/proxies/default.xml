@@ -1,0 +1,45 @@
+<ProxyEndpoint name='default'>
+  <Description>Default Proxy</Description>
+  <HTTPProxyConnection>
+    <BasePath>/e164</BasePath>
+    <Properties/>
+    <!-- <VirtualHost>default</VirtualHost> -->
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <!--
+  <FaultRule name='ruleName'>
+    <Step>
+      <Name>{policy_name}</Name>
+    </Step>
+    <Condition>{(conditional statement)}</Condition>
+  </FaultRule>
+  -->
+
+  <PreFlow name='PreFlow'>
+      <Request/>
+      <Response/>
+  </PreFlow>
+  <PostFlow name='PostFlow'>
+      <Request/>
+      <Response>
+        <Step><Name>AM-CleanResponseHeaders</Name></Step>
+      </Response>
+  </PostFlow>
+
+  <Flows>
+    <Flow name='unknown request'>
+      <Request>
+        <Step><Name>RF-UnknownRequest</Name></Step>
+      </Request>
+      <Response/>
+      <Condition>NOT (request.verb = "GET")</Condition>
+    </Flow>
+  </Flows>
+
+  <RouteRule name='InvokeRouteRule'>
+    <TargetEndpoint>default</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
